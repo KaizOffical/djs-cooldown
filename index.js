@@ -41,9 +41,11 @@ class DJS_Cooldown {
     if (error) throw new Error(message);
   }
 
-  async setDB(connection, message) {
+  async setDB(connection, message, disconnect, auto_reconnect = false) {
     if (!message) message = this.database.message;
-    this.database = { connection, message };
+    if (!disconnect) disconnect = this.databse.disconnect;
+    this.database = { connection, message, disconnect };
+    if (auto_reconnect) this.reconnect();
   }
 
   async connect() {
@@ -60,6 +62,11 @@ class DJS_Cooldown {
       console.log(this.database.disconnect);
       this.isConnect = false;
     });
+  }
+
+  async reconnect() {
+    this.disconnect();
+    this.connect();
   }
 
   async set(
@@ -114,24 +121,6 @@ class DJS_Cooldown {
     } catch (e) {
       callback(true, e.message);
     }
-  }
-
-  async handleCooldown({ identity, name }, callback = this.callbackPass) {
-    if (!this.isConnect) throw new Error("Did not connect to MongoDB");
-    if (!identity) throw new Error("No identity is provided");
-    if (!name) throw new Error("No name is provided");
-
-    const db = this.db;
-
-    let data = await db.findOne({ identity, name });
-    if (!data)
-      return callback(
-        true,
-        "The given information was not stored on database."
-      );
-    if (parseInt(data.usedAt) + data.cooldown > Date.now())
-      return callback(false, "The cooldown is not ended yet", data);
-    callback(false, "The cooldown is ended", data);
   }
 
   async checkCooldown({ identity, name }, callback = this.callbackPass) {

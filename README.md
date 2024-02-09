@@ -6,6 +6,7 @@
 		<a href="https://www.npmjs.com/package/djs-cooldown"><img src="https://img.shields.io/npm/v/djs-cooldown.svg?maxAge=3600" alt="npm version" /></a>
 		<a href="https://www.npmjs.com/package/djs-cooldown"><img src="https://img.shields.io/npm/dt/djs-cooldown.svg?maxAge=3600" alt="npm downloads" /></a>
     <a href="#"><img src="https://img.shields.io/github/repo-size/KaizOffical/djs-cooldown" alt="repo size"></a>
+    <a href="#"><img src="https://img.shields.io/github/package-json/dependency-version/KaizOffical/djs-cooldown/mongoose"></a>
 	</p>
 </div>
 
@@ -18,6 +19,9 @@
 **Node.js 16.11.0 or newer is required.**
 
 ```sh
+# These are common JS runtime environment that you may use
+# Just choose one that suitable for you
+
 npm install djs-cooldown
 yarn add djs-cooldown
 pnpm add djs-cooldown
@@ -31,7 +35,7 @@ const { DJS_Cooldown } = require("djs-cooldown");
 
 const djs_cooldown = new DJS_Cooldown({
   connection: "mongodb+srv://...", // your MongoDB Connection
-  message: "Connected to MongoBD Successfully",
+  message: "Connected to MongoDB Successfully",
 });
 ```
 
@@ -77,17 +81,83 @@ client.on("message", async (message) => {
 
 ## Features
 
-### Count time left
+### Database Utilities
 
 ```js
-let time_left = await djs_cooldown.timeLeft({
+await djs_cooldown.setDB("mongodb+srv://..."); // new connetion URL
+
+// You need to re-connect to MongoDB to change URL
+await djs_cooldown.disconnect();
+await djs_cooldown.connect();
+
+// or simple way
+await djs_cooldown.reconnect();
+
+// shorter
+await djs_cooldown.setDB("mongodb+srv://...", true); // "true" here means turn on automatically reconnect when reset connection URL
+```
+
+### Cooldown Ultilities
+
+```js
+// Set new cooldown for user
+await djs_cooldown.set({
+  identity: "1234812",
+  name: "somethingherer??",
+  cooldown: 15 * 1000,
+  usedAt: Date.now(),
+});
+
+// Remove a created cooldown if you think something went wrong
+await djs_cooldown.remove({
+  identity: "1234812",
+  name: "somethingherer??",
+});
+```
+
+### Check is cooldown ended
+
+```js
+await djs_cooldown.checkCooldown({
+  identity: "1234812",
+  name: "somethingherer??",
+});
+
+// > true
+// Is the cooldown ended? (true/false)
+```
+
+### Count "Time Left"
+
+```js
+await djs_cooldown.timeLeft({
   identity: "11111111111",
   name: "somethinghereig?",
 });
+
+// > 123412
+// Time left in milliseconds
 ```
 
 - Output: Time in MS
 - If no data was found or `timeLeft < 0`, output will be `0`
+
+### Default options
+
+> `data` - `Object`: Provide data to do job
+>
+> - `identity` - `String`: User ID / Guild ID / etc...
+> - `name` - `String`: Cooldown for "name"
+> - `cooldown` - `Number`: Cooldown time (in ms)
+> - `usedAt` - `Number | String`: Timestamp when the cooldown was used
+>
+> `callback` - `Function | null` (optional): Callback when code complete jobs. Return 2/3 variables:
+>
+> - `error` - `Boolean`: Check if error occurs
+> - `message` - `String`: Return message
+> - `data` - `Object | null` (depends on purpose): Return collected data (used for some functions)
+
+Some functions do not required all fields, you can provide only what needed.
 
 ## Support
 

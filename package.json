@@ -1,6 +1,6 @@
 {
   "name": "djs-cooldown",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Discord.JS BOT | Add cooldown for your BOT's commands",
   "main": "index.js",
   "scripts": {
