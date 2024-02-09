@@ -143,8 +143,8 @@ class DJS_Cooldown {
 
     let data = await db.findOne({ identity, name });
     if (!data) {
-      callback(true, "The given information was not stored on database.");
-      return ture;
+      callback(false, "The given information was not stored on database.");
+      return true;
     }
     if (parseInt(data.usedAt) + data.cooldown > Date.now()) {
       callback(false, "The cooldown is not ended yet", data);
@@ -152,6 +152,28 @@ class DJS_Cooldown {
     }
     callback(false, "The cooldown is ended", data);
     return true;
+  }
+
+  async timeLeft({ identity, name }, callback = this.callbackPass) {
+    if (!this.isConnect) throw new Error("Did not connect to MongoDB");
+    if (!identity) throw new Error("No identity is provided");
+    if (!name) throw new Error("No name is provided");
+
+    const db = this.db;
+
+    let data = await db.findOne({ identity, name });
+    if (!data) {
+      callback(false, "The given information was not stored on database.");
+      return 0;
+    }
+    let timeleft = parseInt(data.usedAt) + data.cooldown - Date.now();
+    data.timeLeft = timeleft < 0 ? 0 : timeleft;
+    if (parseInt(data.usedAt) + data.cooldown > Date.now()) {
+      callback(false, "The cooldown is not ended yet", data);
+      return timeleft;
+    }
+    callback(false, "The cooldown is ended", data);
+    return 0;
   }
 }
 

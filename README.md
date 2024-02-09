@@ -77,8 +77,22 @@ client.on("message", async (message) => {
 
 ## Features
 
-Coming soon...
+### Count time left
+
+```js
+let time_left = await djs_cooldown.timeLeft({
+  identity: "11111111111",
+  name: "somethinghereig?",
+});
+```
+
+- Output: Time in MS
+- If no data was found or `timeLeft < 0`, output will be `0`
 
 ## Support
 
-Join our Discord server for needed help.
+If you have any problems or want to report some bugs, let us know
+
+- Report in [Discord Server](https://discord.gg/569UsPjmBW)
+- Create an issue on [Github Issue](https://github.com/KaizOffical/djs-cooldown/issues)
+- Directly contact [Head Developer](https://discord.com/users/744831818632658944)
