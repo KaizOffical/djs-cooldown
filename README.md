@@ -5,7 +5,7 @@
 		<a href="https://discord.gg/569UsPjmBW"><img src="https://img.shields.io/discord/1122881031633129542?color=5865F2&logo=discord&logoColor=white" alt="Discord server" /></a>
 		<a href="https://www.npmjs.com/package/djs-cooldown"><img src="https://img.shields.io/npm/v/djs-cooldown.svg?maxAge=3600" alt="npm version" /></a>
 		<a href="https://www.npmjs.com/package/djs-cooldown"><img src="https://img.shields.io/npm/dt/djs-cooldown.svg?maxAge=3600" alt="npm downloads" /></a>
-    <a href=""><img src="https://img.shields.io/github/repo-size/MrAugu/djs-cooldown" alt="repo size"></a>
+    <a href="#"><img src="https://img.shields.io/github/repo-size/KaizOffical/djs-cooldown" alt="repo size"></a>
 	</p>
 </div>
 
@@ -38,7 +38,7 @@ const djs_cooldown = new DJS_Cooldown({
 <br>
 
 `connection`: `String` - The MongoDB connection string, <br>
-`message`: `String` - The success message when connected to MongoDB.
+`message`: `String` - The success message when connected to MongoDB. <br>
 `disconnect`: `String` - The success message when disconnected from MongoDB.<br>
 
 ## Example usage
