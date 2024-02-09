@@ -1,0 +1,30 @@
+{
+  "name": "djs-cooldown",
+  "version": "1.0.0",
+  "description": "Discord.JS BOT | Add cooldown for your BOT's commands",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "KaizOffical",
+  "license": "ISC",
+  "keywords": [
+    "kaizoffical",
+    "cooldown",
+    "djs",
+    "discord.js",
+    "djs-cooldown",
+    "discord.js-cooldown"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KaizOffical/djs-cooldown.git"
+  },
+  "bugs": {
+    "url": "https://github.com/KaizOffical/djs-cooldown/issues"
+  },
+  "homepage": "https://github.com/KaizOffical/djs-cooldown#readme",
+  "dependencies": {
+    "mongoose": "^8.1.1"
+  }
+}
