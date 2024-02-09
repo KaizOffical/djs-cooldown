@@ -95,6 +95,9 @@ await djs_cooldown.reconnect();
 
 // shorter
 await djs_cooldown.setDB("mongodb+srv://...", true); // "true" here means turn on automatically reconnect when reset connection URL
+
+// Refresh Database connection state (avoid package required connect another time to use)
+await djs_cooldown.refreshDB(); // Will log again if already connected
 ```
 
 ### Cooldown Ultilities

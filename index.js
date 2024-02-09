@@ -7,8 +7,9 @@ class DJS_Cooldown {
 
     this.database = {
       connection: database.connection,
-      message: database.message || "Connected to MongoDB",
-      disconnect: database.disconnect || "Disconnected to MongoDB",
+      message: database.message || "DJS_Cooldown is connected to MongoDB",
+      disconnect:
+        database.disconnect || "DJS_Cooldown is disconnected to MongoDB",
     };
 
     this.db = mongoose.model(
@@ -33,7 +34,8 @@ class DJS_Cooldown {
       })
     );
 
-    this.isConnect = false;
+    this.isConnect = mongoose.connection.readyState == 1 ? true : false;
+    if (this.isConnect) console.log(this.database.message);
   }
 
   async callbackPass(error = false, message, data = {}) {
@@ -46,6 +48,11 @@ class DJS_Cooldown {
     if (!disconnect) disconnect = this.databse.disconnect;
     this.database = { connection, message, disconnect };
     if (auto_reconnect) this.reconnect();
+  }
+
+  async refreshDB() {
+    this.isConnect = mongoose.connection.readyState == 1 ? true : false;
+    if (this.isConnect) console.log(this.database.message);
   }
 
   async connect() {
